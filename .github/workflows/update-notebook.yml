@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "0 */4 * * *"
   push:
-    branches: [ "notebook-branch" ]
+    branches: [ "main" ]
 
 jobs:
   update:
