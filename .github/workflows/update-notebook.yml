@@ -1,0 +1,38 @@
+name: Update Notebook
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  push:
+    branches: [ "notebook-branch" ]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install Jupyter
+        run: pip install jupyter
+
+      - name: Install Python Requirements
+        run: pip install -r requirements.txt
+
+      - name: Run Notebook
+        env:
+          PASS: ${{ secrets.PASS }}
+          USR: ${{ secrets.USR }}
+        run: |
+         jupyter nbconvert --execute --to html is-ready.ipynb   --output index.html
+         git add -A
+         git config --local user.email "action@github.com"
+         git config --local user.name "GitHub Action"
+         git commit -m "Update notebook" || true
+         git push
