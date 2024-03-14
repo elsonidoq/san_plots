@@ -30,7 +30,7 @@ jobs:
           PASS: ${{ secrets.PASS }}
           USR: ${{ secrets.USR }}
         run: |
-         jupyter nbconvert --execute --to html fetch-and-plot.ipynb   --output index.html
+         jupyter nbconvert --execute --to html fetch-and-plot.ipynb   --output index.html --no-input
          git add -A
          git config --local user.email "action@github.com"
          git config --local user.name "GitHub Action"
